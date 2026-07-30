@@ -10,6 +10,9 @@ version="$(sed -n 's/^package_version = "\(.*\)"/\1/p' "$package_dir/package.tom
 
 stage="$root/.build/release/$package-$version"
 output="$root/dist/$package-$version.tar.gz"
+versioned_archive="$root/dist/lib$package-$version.a"
+headers_archive="$root/dist/$package-$version-headers.tar.gz"
+source_archive="$root/dist/$package-$version-source.tar.gz"
 rm -rf "$stage"
 mkdir -p "$stage/include" "$stage/lib" "$stage/source" "$root/dist"
 
@@ -18,6 +21,7 @@ cp "$package_dir/lib/lib$package.a" "$stage/lib/"
 cp -a "$package_dir/vendor/src" "$stage/source/"
 cp "$package_dir/vendor/LICENSE" "$stage/"
 cp "$package_dir/package.toml" "$stage/"
+cp "$package_dir/lib/lib$package.a" "$versioned_archive"
 
 tar \
   --sort=name \
@@ -29,5 +33,24 @@ tar \
   -C "$(dirname "$stage")" \
   "$(basename "$stage")"
 
-sha256sum "$output"
+tar \
+  --sort=name \
+  --mtime="@0" \
+  --owner=0 \
+  --group=0 \
+  --numeric-owner \
+  -czf "$headers_archive" \
+  -C "$stage" \
+  include LICENSE package.toml
 
+tar \
+  --sort=name \
+  --mtime="@0" \
+  --owner=0 \
+  --group=0 \
+  --numeric-owner \
+  -czf "$source_archive" \
+  -C "$stage" \
+  source LICENSE package.toml
+
+sha256sum "$versioned_archive" "$headers_archive" "$source_archive" "$output"

@@ -38,7 +38,7 @@ jobs:
           scripts/verify-reproducible.sh "${{ steps.package.outputs.name }}"
           scripts/link-smoke.sh "${{ steps.package.outputs.name }}"
           scripts/package-release.sh "${{ steps.package.outputs.name }}"
-          sha256sum dist/*.tar.gz > dist/SHA256SUMS
+          sha256sum dist/* > dist/SHA256SUMS
 
       - name: Publish immutable release
         env:
@@ -47,6 +47,4 @@ jobs:
           gh release create "$GITHUB_REF_NAME" \
             --verify-tag \
             --generate-notes \
-            dist/*.tar.gz \
-            dist/SHA256SUMS
-
+            dist/*

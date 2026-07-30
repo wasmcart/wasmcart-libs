@@ -42,5 +42,4 @@ jobs:
           name: wasmcart-libs
           path: |
             packages/*/lib/*.a
-            dist/*.tar.gz
-
+            dist/*

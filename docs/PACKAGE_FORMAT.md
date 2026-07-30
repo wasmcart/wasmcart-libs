@@ -1,6 +1,20 @@
 # Package format
 
-Each release is a gzip-compressed tar archive with one top-level directory:
+Every release publishes four independently downloadable artifacts:
+
+```text
+libbox2d-3.1.0-wc1.a
+box2d-3.1.0-wc1-headers.tar.gz
+box2d-3.1.0-wc1-source.tar.gz
+box2d-3.1.0-wc1.tar.gz
+```
+
+Games that already have headers can download only the versioned `.a`. New
+projects normally download the `.a` and headers archive. The source archive is
+provided for auditing and independent reproduction. The combined archive is a
+convenience bundle.
+
+The combined archive has one top-level directory:
 
 ```text
 box2d-3.1.1-dev.19-wc1/
@@ -47,5 +61,6 @@ url = "https://github.com/wasmcart/wasmcart-libs/releases/download/box2d-3.1.0-w
 sha256 = "..."
 ```
 
-The lockfile is committed. Extracted dependencies are cached and ignored.
-
+The lockfile is committed. Extracted dependencies are cached and ignored. A
+consumer may pin the `.a` and headers as separate entries so it never downloads
+the full source or combined bundle.

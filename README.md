@@ -56,17 +56,21 @@ directory.
 
 ## Consume a release
 
-Each package release contains:
+Each package release publishes separate files:
 
 ```text
-include/
-lib/
-source/
-LICENSE
-package.toml
+libbox2d-3.1.0-wc1.a
+box2d-3.1.0-wc1-headers.tar.gz
+box2d-3.1.0-wc1-source.tar.gz
+box2d-3.1.0-wc1.tar.gz
+SHA256SUMS
 ```
 
-Download and verify the package, then add its include and library paths:
+Download only the versioned `.a` if headers are already available. A new
+project usually downloads the `.a` and small headers archive. Source remains a
+separate artifact for auditing and reproducible builds.
+
+After verifying the downloads, add their include and library paths:
 
 ```sh
 clang --target=wasm32-wasip1-threads \
