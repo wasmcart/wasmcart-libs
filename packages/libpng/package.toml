@@ -1,8 +1,9 @@
 name = "libpng"
-package_version = "1.8.0-dev.d1d0abe-wc2"
+package_version = "1.8.0-dev.d1d0abe-wc3"
 upstream_repository = "https://github.com/pnggroup/libpng"
 upstream_commit = "d1d0abeffede1cc898ddc3d0e600839cf026d749"
 target = "wasm32-wasip1-threads"
-features = ["simd128", "atomics", "bulk-memory", "no-setjmp"]
+features = ["simd128", "atomics", "bulk-memory", "wasm-eh", "simplified-api"]
 dependencies = ["zlib"]
 archive = "lib/liblibpng.a"
+smoke_result = 42

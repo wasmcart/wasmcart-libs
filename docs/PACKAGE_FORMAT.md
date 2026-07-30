@@ -35,6 +35,11 @@ revision:
 The `wc` revision changes when build flags, wasmcart patches, packaging, or the
 toolchain change without an upstream version change.
 
+The `features` array records required execution and link capabilities.
+`wasm-eh` means the archive uses standardized WebAssembly exception handling;
+with wasi-sdk 33, consumers compile participating code with
+`-mllvm -wasm-enable-sjlj` and include `-lsetjmp` in the final link.
+
 Release tags begin with the package name:
 
 ```text

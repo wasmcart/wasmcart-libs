@@ -29,6 +29,10 @@ for package in "${packages[@]}"; do
       package_flags[$index]="${package_flags[$index]//@VENDOR_INCLUDE@/$dir/vendor/include}"
     done
   fi
+  link_flags=()
+  if [[ -f "$dir/link-flags.txt" ]]; then
+    mapfile -t link_flags < "$dir/link-flags.txt"
+  fi
   dependency_line="$(sed -n 's/^dependencies = \[\(.*\)\]/\1/p' "$dir/package.toml")"
   include_flags=()
   if [[ -n "$dependency_line" ]]; then
@@ -50,6 +54,7 @@ for package in "${packages[@]}"; do
     "${include_flags[@]}" \
     "$smoke" \
     "${archives[@]}" \
+    "${link_flags[@]}" \
     -Wl,--no-entry \
     -Wl,--export=smoke \
     -Wl,--import-memory \
@@ -59,4 +64,8 @@ for package in "${packages[@]}"; do
     -o "$out"
   test -s "$out"
   echo "$package $(wc -c < "$out") bytes"
+  smoke_result="$(sed -n 's/^smoke_result = \([0-9][0-9]*\)$/\1/p' "$dir/package.toml")"
+  if [[ -n "$smoke_result" ]]; then
+    node "$root/scripts/run-smoke.mjs" "$out" "$smoke_result"
+  fi
 done

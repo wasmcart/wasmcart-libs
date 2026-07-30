@@ -101,10 +101,11 @@
 #define PNG_SAVE_INT_32_SUPPORTED
 #define PNG_SAVE_UNKNOWN_CHUNKS_SUPPORTED
 #define PNG_SEQUENTIAL_READ_SUPPORTED
-/* WASI threads has no standardized setjmp support. */
+#define PNG_SETJMP_SUPPORTED
 #define PNG_SET_UNKNOWN_CHUNKS_SUPPORTED
 #define PNG_SET_USER_LIMITS_SUPPORTED
-/* Simplified APIs require setjmp, so the core row APIs are packaged instead. */
+#define PNG_SIMPLIFIED_READ_SUPPORTED
+#define PNG_SIMPLIFIED_WRITE_SUPPORTED
 #define PNG_STDIO_SUPPORTED
 #define PNG_STORE_UNKNOWN_CHUNKS_SUPPORTED
 /* Native CPU backends do not apply to wasm32. */

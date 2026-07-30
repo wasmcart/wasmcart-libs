@@ -37,10 +37,10 @@ Raylib, SDL2, SDL3, and Skia need wasmcart platform backends, not merely
 cross-compilation. They land here only after their examples run in the browser,
 Node.js, native, and libretro hosts.
 
-The libpng build omits its simplified API because that API requires
-`setjmp`/`longjmp`. Those operations depend on WebAssembly exception handling,
-which is not part of the wasmcart host contract. The regular row-based read and
-write APIs are included.
+The libpng build includes its simplified read/write API and uses wasi-sdk's
+Wasm-native `setjmp`/`longjmp`. Link libpng carts with `-lsetjmp`; conforming
+wasmcart hosts support the standardized WebAssembly exception-handling
+instructions used by that runtime.
 
 ## Why static archives
 
@@ -93,6 +93,17 @@ clang --target=wasm32-wasip1-threads \
   -I deps/box2d/include \
   game.c deps/box2d/lib/libbox2d.a \
   -o game.wasm
+```
+
+Packages declaring `wasm-eh`, currently libpng, additionally require WASI SDK's
+SjLj compile and link options:
+
+```sh
+clang --target=wasm32-wasip1-threads \
+  -pthread -msimd128 -mllvm -wasm-enable-sjlj \
+  -I deps/libpng/include -I deps/zlib/include \
+  game.c deps/libpng/lib/liblibpng.a deps/zlib/lib/libzlib.a \
+  -lsetjmp -o game.wasm
 ```
 
 Projects pin the release URL and SHA-256 in `wasmcart-libs.lock`. They do not

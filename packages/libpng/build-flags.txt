@@ -1,0 +1,2 @@
+-mllvm
+-wasm-enable-sjlj
