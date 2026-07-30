@@ -65,6 +65,10 @@ common_flags=(
 
 if [[ -f "$package_dir/build-flags.txt" ]]; then
   mapfile -t package_flags < "$package_dir/build-flags.txt"
+  for index in "${!package_flags[@]}"; do
+    package_flags[$index]="${package_flags[$index]//@VENDOR_SRC@/$vendor/src}"
+    package_flags[$index]="${package_flags[$index]//@VENDOR_INCLUDE@/$vendor/include}"
+  done
   common_flags+=("${package_flags[@]}")
 fi
 

@@ -29,6 +29,7 @@ WebAssembly SIMD. There are no slower compatibility builds.
 | miniaudio | 0.11.25 decoding and mixing | `libminiaudio.a` | ready |
 | Nuklear | 4.13 development snapshot | `libnuklear.a` | ready |
 | Ogg | 1.3.6 development snapshot | `libogg.a` | ready |
+| Opus | 1.5.2 | `libopus.a` | ready |
 | Vorbis | 1.3.8 development snapshot | `libvorbis.a` | ready |
 | zlib | 1.3.2 development snapshot | `libzlib.a` | ready |
 

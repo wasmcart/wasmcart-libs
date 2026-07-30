@@ -24,6 +24,10 @@ for package in "${packages[@]}"; do
   package_flags=()
   if [[ -f "$dir/build-flags.txt" ]]; then
     mapfile -t package_flags < "$dir/build-flags.txt"
+    for index in "${!package_flags[@]}"; do
+      package_flags[$index]="${package_flags[$index]//@VENDOR_SRC@/$dir/vendor/src}"
+      package_flags[$index]="${package_flags[$index]//@VENDOR_INCLUDE@/$dir/vendor/include}"
+    done
   fi
   dependency_line="$(sed -n 's/^dependencies = \[\(.*\)\]/\1/p' "$dir/package.toml")"
   include_flags=()

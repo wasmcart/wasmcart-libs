@@ -1,0 +1,7 @@
+name = "opus"
+package_version = "1.5.2-wc1"
+upstream_repository = "https://github.com/xiph/opus"
+upstream_commit = "ddbe48383984d56acd9e1ab6a090c54ca6b735a6"
+target = "wasm32-wasip1-threads"
+features = ["simd128", "atomics", "bulk-memory", "float"]
+archive = "lib/libopus.a"
