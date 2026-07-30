@@ -1,0 +1,3 @@
+-Wno-deprecated-declarations
+-Wno-implicit-const-int-float-conversion
+-Wno-#pragma-messages

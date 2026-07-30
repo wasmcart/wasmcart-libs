@@ -21,6 +21,10 @@ for package in "${packages[@]}"; do
     compiler="$sdk/bin/clang++"
   fi
   archives=("$dir/lib/lib$package.a")
+  package_flags=()
+  if [[ -f "$dir/build-flags.txt" ]]; then
+    mapfile -t package_flags < "$dir/build-flags.txt"
+  fi
   dependency_line="$(sed -n 's/^dependencies = \[\(.*\)\]/\1/p' "$dir/package.toml")"
   include_flags=()
   if [[ -n "$dependency_line" ]]; then
@@ -36,7 +40,9 @@ for package in "${packages[@]}"; do
     "--target=$TARGET" \
     "--sysroot=$sdk/share/wasi-sysroot" \
     -O2 -pthread -msimd128 \
+    "${package_flags[@]}" \
     -I"$dir/vendor/include" \
+    -I"$root/third_party/emscripten-simd-compat/include" \
     "${include_flags[@]}" \
     "$smoke" \
     "${archives[@]}" \

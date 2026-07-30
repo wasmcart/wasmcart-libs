@@ -1,0 +1,7 @@
+name = "jolt"
+package_version = "5.6.1-dev.341ac92-wc1"
+upstream_repository = "https://github.com/jrouwe/JoltPhysics"
+upstream_commit = "341ac92c7a8a63a4a37729ad6eca21f9a5a51e13"
+target = "wasm32-wasip1-threads"
+features = ["simd128", "atomics", "bulk-memory"]
+archive = "lib/libjolt.a"

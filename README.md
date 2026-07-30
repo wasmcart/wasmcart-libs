@@ -21,6 +21,9 @@ WebAssembly SIMD. There are no slower compatibility builds.
 | Box3D | 0.1.0 development snapshot | `libbox3d.a` | ready |
 | cgltf | 1.15 development snapshot | `libcgltf.a` | ready |
 | Flecs | 4.1.6 core | `libflecs.a` | ready |
+| Dear ImGui | 1.92.9 core | `libimgui.a` | ready |
+| Jolt Physics | 5.6.1 development snapshot | `libjolt.a` | ready |
+| libpng | 1.8.0 development snapshot | `liblibpng.a` | ready |
 | libxmp | 4.7.2 lite formats | `liblibxmp.a` | ready |
 | meshoptimizer | 1.2 development snapshot | `libmeshoptimizer.a` | ready |
 | miniaudio | 0.11.25 decoding and mixing | `libminiaudio.a` | ready |
@@ -32,6 +35,11 @@ WebAssembly SIMD. There are no slower compatibility builds.
 Raylib, SDL2, SDL3, and Skia need wasmcart platform backends, not merely
 cross-compilation. They land here only after their examples run in the browser,
 Node.js, native, and libretro hosts.
+
+The libpng build omits its simplified API because that API requires
+`setjmp`/`longjmp`. Those operations depend on WebAssembly exception handling,
+which is not part of the wasmcart host contract. The regular row-based read and
+write APIs are included.
 
 ## Why static archives
 

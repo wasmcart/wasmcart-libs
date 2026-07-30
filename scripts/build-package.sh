@@ -53,8 +53,6 @@ common_flags=(
   -DNDEBUG
   -pthread
   -msimd128
-  -D__SSE__=1
-  -D__SSE2__=1
   -ffunction-sections
   -fdata-sections
   -fvisibility=hidden
@@ -64,6 +62,11 @@ common_flags=(
   -I"$vendor/src"
   -I"$root/third_party/emscripten-simd-compat/include"
 )
+
+if [[ -f "$package_dir/build-flags.txt" ]]; then
+  mapfile -t package_flags < "$package_dir/build-flags.txt"
+  common_flags+=("${package_flags[@]}")
+fi
 
 dependency_line="$(sed -n 's/^dependencies = \[\(.*\)\]/\1/p' "$package_dir/package.toml")"
 if [[ -n "$dependency_line" ]]; then
