@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Restore WASI SDK cache
+        uses: actions/cache@v5
+        with:
+          path: .cache
+          key: wasi-sdk-33.0-linux-x86_64
+
+      - name: Bootstrap pinned WASI SDK
+        run: scripts/bootstrap-wasi-sdk.sh
+
+      - name: Build libraries
+        run: scripts/build.sh
+
+      - name: Link smoke programs
+        run: scripts/link-smoke.sh
+
+      - name: Verify reproducible archives
+        run: scripts/verify-reproducible.sh
+
+      - name: Build release archives
+        run: |
+          scripts/package-release.sh box2d
+          scripts/package-release.sh box3d
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: wasmcart-libs
+          path: |
+            packages/*/lib/*.a
+            dist/*.tar.gz
+

@@ -1,0 +1,8 @@
+name = "box3d"
+package_version = "0.1.0-dev.2-wc1"
+upstream_repository = "https://github.com/erincatto/box3d"
+upstream_commit = "29bf523ce7bc4590aba9f17c9db791cdc5c4397e"
+target = "wasm32-wasip1-threads"
+features = ["simd128", "atomics", "bulk-memory"]
+archive = "lib/libbox3d.a"
+
