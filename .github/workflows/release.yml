@@ -5,6 +5,11 @@ on:
     tags:
       - "*-wc*"
   workflow_dispatch:
+    inputs:
+      tag:
+        description: Existing package tag to publish
+        required: true
+        type: string
 
 permissions:
   contents: write
@@ -24,16 +29,20 @@ jobs:
       - name: Select package
         id: package
         shell: bash
+        env:
+          REQUESTED_TAG: ${{ inputs.tag }}
         run: |
+          release_tag="${REQUESTED_TAG:-$GITHUB_REF_NAME}"
           for package_dir in packages/*; do
             package="${package_dir##*/}"
             version="$(sed -n 's/^package_version = "\(.*\)"/\1/p' "$package_dir/package.toml")"
-            if [[ "$GITHUB_REF_NAME" == "$package-$version" ]]; then
+            if [[ "$release_tag" == "$package-$version" ]]; then
               echo "name=$package" >> "$GITHUB_OUTPUT"
+              echo "tag=$release_tag" >> "$GITHUB_OUTPUT"
               exit 0
             fi
           done
-          echo "No package matches release tag: $GITHUB_REF_NAME" >&2
+          echo "No package matches release tag: $release_tag" >&2
           exit 1
 
       - name: Rebuild and verify
@@ -49,7 +58,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release create "$GITHUB_REF_NAME" \
+          gh release create "${{ steps.package.outputs.tag }}" \
             --verify-tag \
             --generate-notes \
             dist/*
