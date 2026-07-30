@@ -44,7 +44,8 @@ common_flags=(
   -DNDEBUG
   -pthread
   -msimd128
-  -msse2
+  -D__SSE__=1
+  -D__SSE2__=1
   -ffunction-sections
   -fdata-sections
   -fvisibility=hidden
@@ -52,6 +53,7 @@ common_flags=(
   "-fdebug-prefix-map=$root=/usr/src/wasmcart-libs"
   -I"$vendor/include"
   -I"$vendor/src"
+  -I"$root/third_party/emscripten-simd-compat/include"
 )
 
 for source in "${sources[@]}"; do
@@ -66,4 +68,3 @@ ZERO_AR_DATE=1 "$ar" rcD "$archive" "${object_files[@]}"
 mkdir -p "$package_dir/lib"
 cp "$archive" "$package_dir/lib/lib$package.a"
 sha256sum "$package_dir/lib/lib$package.a"
-

@@ -89,6 +89,11 @@ generated archives together. CI performs three independent checks:
 Build paths are normalized, object order is sorted, and `llvm-ar` deterministic
 mode removes archive timestamps and host identity.
 
+Box2D and Box3D use SSE2 intrinsics as their portable four-wide SIMD API.
+WASI Clang lowers the vendored Emscripten SSE compatibility headers to native
+WebAssembly `simd128` instructions. The compatibility headers and their license
+are committed under `third_party/emscripten-simd-compat/`.
+
 See [docs/REPRODUCIBLE_BUILDS.md](docs/REPRODUCIBLE_BUILDS.md).
 
 ## Updating a library
@@ -109,4 +114,3 @@ Changing the toolchain or shared build scripts rebuilds everything.
 
 Repository tooling is MIT licensed. Each packaged library keeps its upstream
 license in its package and release archive.
-

@@ -10,6 +10,7 @@ source and locked toolchain must reproduce the same bytes.
 - WASI SDK release and SHA-256 in `toolchain.lock`
 - Complete compiler flags in `scripts/build-package.sh`
 - Deterministic archive construction with `llvm-ar rcD`
+- Vendored SSE-to-WASM compatibility headers used by the physics solvers
 
 ## Normalized build
 
@@ -36,4 +37,3 @@ is a release-blocking failure.
 A WASI SDK update is a repository-wide change. It requires rebuilding every
 archive, linking every smoke program, and publishing new `wc` package revisions.
 Upstream versions do not need to change when only wasmcart packaging changes.
-
