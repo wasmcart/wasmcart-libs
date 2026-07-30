@@ -1,0 +1,7 @@
+name = "libxmp"
+package_version = "4.7.2-wc1"
+upstream_repository = "https://github.com/libxmp/libxmp"
+upstream_commit = "a13276d27feabcf9ee4f982913f718ee05a65cb7"
+target = "wasm32-wasip1-threads"
+features = ["simd128", "atomics", "bulk-memory", "lite-formats"]
+archive = "lib/liblibxmp.a"

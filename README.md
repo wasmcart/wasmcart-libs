@@ -21,6 +21,7 @@ WebAssembly SIMD. There are no slower compatibility builds.
 | Box3D | 0.1.0 development snapshot | `libbox3d.a` | ready |
 | cgltf | 1.15 development snapshot | `libcgltf.a` | ready |
 | Flecs | 4.1.6 core | `libflecs.a` | ready |
+| libxmp | 4.7.2 lite formats | `liblibxmp.a` | ready |
 | meshoptimizer | 1.2 development snapshot | `libmeshoptimizer.a` | ready |
 | miniaudio | 0.11.25 decoding and mixing | `libminiaudio.a` | ready |
 | Nuklear | 4.13 development snapshot | `libnuklear.a` | ready |

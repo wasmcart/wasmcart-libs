@@ -3,7 +3,8 @@ name: Release package
 on:
   push:
     tags:
-      - "*-wc[0-9]+"
+      - "*-wc*"
+  workflow_dispatch:
 
 permissions:
   contents: write

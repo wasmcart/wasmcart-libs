@@ -34,7 +34,16 @@ archive="$build/lib$package.a"
 rm -rf "$build"
 mkdir -p "$objects"
 
-mapfile -t sources < <(find "$vendor/src" -type f \( -name '*.c' -o -name '*.cc' -o -name '*.cpp' \) -print | LC_ALL=C sort)
+if [[ -f "$package_dir/sources.txt" ]]; then
+  mapfile -t source_names < "$package_dir/sources.txt"
+  sources=()
+  for source_name in "${source_names[@]}"; do
+    [[ -z "$source_name" || "$source_name" == \#* ]] && continue
+    sources+=("$vendor/src/$source_name")
+  done
+else
+  mapfile -t sources < <(find "$vendor/src" -type f \( -name '*.c' -o -name '*.cc' -o -name '*.cpp' \) -print | LC_ALL=C sort)
+fi
 [[ "${#sources[@]}" -gt 0 ]] || { echo "No C or C++ sources for $package" >&2; exit 1; }
 
 common_flags=(
