@@ -2,6 +2,8 @@ name: CI
 
 on:
   push:
+    branches:
+      - main
   pull_request:
   workflow_dispatch:
 
@@ -34,8 +36,3 @@ jobs:
 
       - name: Build release archives
         run: for package in packages/*; do scripts/package-release.sh "${package##*/}"; done
-
-      - uses: actions/upload-artifact@v7
-        with:
-          name: wasmcart-libs
-          path: dist/*.zip

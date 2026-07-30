@@ -1,5 +1,5 @@
 name = "libpng"
-package_version = "1.8.0-dev.d1d0abe-wc1"
+package_version = "1.8.0-dev.d1d0abe-wc2"
 upstream_repository = "https://github.com/pnggroup/libpng"
 upstream_commit = "d1d0abeffede1cc898ddc3d0e600839cf026d749"
 target = "wasm32-wasip1-threads"

@@ -1,5 +1,5 @@
 name = "imgui"
-package_version = "1.92.9-wc1"
+package_version = "1.92.9-wc2"
 upstream_repository = "https://github.com/ocornut/imgui"
 upstream_commit = "ed252c55aadd46e4ef78d85f795d6e3c4191a911"
 target = "wasm32-wasip1-threads"

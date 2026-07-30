@@ -1,8 +1,7 @@
 name = "box2d"
-package_version = "3.1.1-dev.19-wc1"
+package_version = "3.1.1-dev.19-wc2"
 upstream_repository = "https://github.com/erincatto/box2d"
 upstream_commit = "c05c48738fbe5c27625e36c5f0cfbdaddfc8359a"
 target = "wasm32-wasip1-threads"
 features = ["simd128", "atomics", "bulk-memory"]
 archive = "lib/libbox2d.a"
-

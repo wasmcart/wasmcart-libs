@@ -1,5 +1,5 @@
 name = "vorbis"
-package_version = "1.3.8-dev.e3c9861-wc1"
+package_version = "1.3.8-dev.e3c9861-wc2"
 upstream_repository = "https://github.com/xiph/vorbis"
 upstream_commit = "e3c9861ff096d52378e131ff8c334552e09cdffa"
 target = "wasm32-wasip1-threads"

@@ -1,5 +1,5 @@
 name = "meshoptimizer"
-package_version = "1.2-dev.300f7d3-wc1"
+package_version = "1.2-dev.300f7d3-wc2"
 upstream_repository = "https://github.com/zeux/meshoptimizer"
 upstream_commit = "300f7d3c6c9f7a7a45dbb547c971f99c53544344"
 target = "wasm32-wasip1-threads"

@@ -1,5 +1,5 @@
 name = "cgltf"
-package_version = "1.15-dev.85cd623-wc1"
+package_version = "1.15-dev.85cd623-wc2"
 upstream_repository = "https://github.com/jkuhlmann/cgltf"
 upstream_commit = "85cd62382dfea638278962690cf515023f33ed00"
 target = "wasm32-wasip1-threads"

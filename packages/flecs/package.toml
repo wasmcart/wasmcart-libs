@@ -1,5 +1,5 @@
 name = "flecs"
-package_version = "4.1.6-wc1"
+package_version = "4.1.6-wc2"
 upstream_repository = "https://github.com/SanderMertens/flecs"
 upstream_commit = "ab68ec5d508eb6808a5a884f6e500d28dbab750c"
 target = "wasm32-wasip1-threads"
