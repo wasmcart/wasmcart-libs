@@ -1,5 +1,7 @@
 # wasmcart-libs
 
+[![CI](https://github.com/wasmcart/wasmcart-libs/actions/workflows/ci.yml/badge.svg)](https://github.com/wasmcart/wasmcart-libs/actions/workflows/ci.yml)
+
 Reproducible, ready-to-link static libraries for wasmcart games.
 
 Every archive targets one platform:
@@ -15,8 +17,8 @@ WebAssembly SIMD. There are no slower compatibility builds.
 
 | Package | Upstream | Archive | Status |
 |---|---|---|---|
-| Box2D | 3.1.1 development snapshot | `libbox2d.a` | building |
-| Box3D | 0.1.0 development snapshot | `libbox3d.a` | building |
+| Box2D | 3.1.1 development snapshot | `libbox2d.a` | ready |
+| Box3D | 0.1.0 development snapshot | `libbox3d.a` | ready |
 
 Raylib, SDL2, and SDL3 adapters are next. They need wasmcart platform backends,
 not merely cross-compilation, so they will land only when their examples run in
@@ -95,6 +97,8 @@ WebAssembly `simd128` instructions. The compatibility headers and their license
 are committed under `third_party/emscripten-simd-compat/`.
 
 See [docs/REPRODUCIBLE_BUILDS.md](docs/REPRODUCIBLE_BUILDS.md).
+The release archive layout and version rules are documented in
+[docs/PACKAGE_FORMAT.md](docs/PACKAGE_FORMAT.md).
 
 ## Updating a library
 
