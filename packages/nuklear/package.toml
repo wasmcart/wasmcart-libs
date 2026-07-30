@@ -1,0 +1,7 @@
+name = "nuklear"
+package_version = "4.13-dev.0dbc52f-wc1"
+upstream_repository = "https://github.com/Immediate-Mode-UI/Nuklear"
+upstream_commit = "0dbc52f86404f9e1f26ce0df3015ed23ff54a726"
+target = "wasm32-wasip1-threads"
+features = ["simd128", "atomics", "bulk-memory"]
+archive = "lib/libnuklear.a"

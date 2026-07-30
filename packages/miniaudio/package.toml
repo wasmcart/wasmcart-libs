@@ -1,0 +1,7 @@
+name = "miniaudio"
+package_version = "0.11.25-wc1"
+upstream_repository = "https://github.com/mackron/miniaudio"
+upstream_commit = "9634bedb5b5a2ca38c1ee7108a9358a4e233f14d"
+target = "wasm32-wasip1-threads"
+features = ["simd128", "atomics", "bulk-memory", "no-device-io", "no-internal-threading"]
+archive = "lib/libminiaudio.a"

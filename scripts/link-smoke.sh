@@ -14,13 +14,32 @@ fi
 for package in "${packages[@]}"; do
   dir="$root/packages/$package"
   out="$root/.build/$package/smoke.wasm"
-  "$sdk/bin/clang" \
+  smoke="$dir/examples/smoke.c"
+  compiler="$sdk/bin/clang"
+  if [[ -f "$dir/examples/smoke.cpp" ]]; then
+    smoke="$dir/examples/smoke.cpp"
+    compiler="$sdk/bin/clang++"
+  fi
+  archives=("$dir/lib/lib$package.a")
+  dependency_line="$(sed -n 's/^dependencies = \[\(.*\)\]/\1/p' "$dir/package.toml")"
+  include_flags=()
+  if [[ -n "$dependency_line" ]]; then
+    dependency_line="${dependency_line//\"/}"
+    dependency_line="${dependency_line// /}"
+    IFS=',' read -r -a dependencies <<< "$dependency_line"
+    for dependency in "${dependencies[@]}"; do
+      include_flags+=("-I$root/packages/$dependency/vendor/include")
+      archives+=("$root/packages/$dependency/lib/lib$dependency.a")
+    done
+  fi
+  "$compiler" \
     "--target=$TARGET" \
     "--sysroot=$sdk/share/wasi-sysroot" \
     -O2 -pthread -msimd128 \
     -I"$dir/vendor/include" \
-    "$dir/examples/smoke.c" \
-    "$dir/lib/lib$package.a" \
+    "${include_flags[@]}" \
+    "$smoke" \
+    "${archives[@]}" \
     -Wl,--no-entry \
     -Wl,--export=smoke \
     -Wl,--import-memory \
@@ -31,4 +50,3 @@ for package in "${packages[@]}"; do
   test -s "$out"
   echo "$package $(wc -c < "$out") bytes"
 done
-

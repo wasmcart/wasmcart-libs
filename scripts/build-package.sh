@@ -19,10 +19,11 @@ if [[ -z "$sdk" ]]; then
 fi
 
 cc="$sdk/bin/clang"
+cxx="$sdk/bin/clang++"
 ar="$sdk/bin/llvm-ar"
 ranlib="$sdk/bin/llvm-ranlib"
 
-for tool in "$cc" "$ar" "$ranlib"; do
+for tool in "$cc" "$cxx" "$ar" "$ranlib"; do
   [[ -x "$tool" ]] || { echo "Missing tool: $tool" >&2; exit 1; }
 done
 
@@ -33,13 +34,12 @@ archive="$build/lib$package.a"
 rm -rf "$build"
 mkdir -p "$objects"
 
-mapfile -t sources < <(find "$vendor/src" -maxdepth 1 -type f -name '*.c' -print | LC_ALL=C sort)
-[[ "${#sources[@]}" -gt 0 ]] || { echo "No C sources for $package" >&2; exit 1; }
+mapfile -t sources < <(find "$vendor/src" -type f \( -name '*.c' -o -name '*.cc' -o -name '*.cpp' \) -print | LC_ALL=C sort)
+[[ "${#sources[@]}" -gt 0 ]] || { echo "No C or C++ sources for $package" >&2; exit 1; }
 
 common_flags=(
   "--target=$TARGET"
   "--sysroot=$sdk/share/wasi-sysroot"
-  -std=gnu17
   -O3
   -DNDEBUG
   -pthread
@@ -56,9 +56,29 @@ common_flags=(
   -I"$root/third_party/emscripten-simd-compat/include"
 )
 
+dependency_line="$(sed -n 's/^dependencies = \[\(.*\)\]/\1/p' "$package_dir/package.toml")"
+if [[ -n "$dependency_line" ]]; then
+  dependency_line="${dependency_line//\"/}"
+  dependency_line="${dependency_line// /}"
+  IFS=',' read -r -a dependencies <<< "$dependency_line"
+  for dependency in "${dependencies[@]}"; do
+    common_flags+=("-I$root/packages/$dependency/vendor/include")
+  done
+fi
+
 for source in "${sources[@]}"; do
-  name="$(basename "${source%.c}")"
-  "$cc" "${common_flags[@]}" -c "$source" -o "$objects/$name.o"
+  relative="${source#"$vendor/src/"}"
+  name="${relative//\//_}"
+  name="${name%.*}"
+  compiler="$cc"
+  language_flags=(-std=gnu17)
+  case "$source" in
+    *.cc|*.cpp)
+      compiler="$cxx"
+      language_flags=(-std=gnu++17 -fno-exceptions -fno-rtti)
+      ;;
+  esac
+  "$compiler" "${common_flags[@]}" "${language_flags[@]}" -c "$source" -o "$objects/$name.o"
 done
 
 mapfile -t object_files < <(find "$objects" -type f -name '*.o' -print | LC_ALL=C sort)

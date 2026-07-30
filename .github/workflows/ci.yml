@@ -33,9 +33,7 @@ jobs:
         run: scripts/verify-reproducible.sh
 
       - name: Build release archives
-        run: |
-          scripts/package-release.sh box2d
-          scripts/package-release.sh box3d
+        run: for package in packages/*; do scripts/package-release.sh "${package##*/}"; done
 
       - uses: actions/upload-artifact@v7
         with:

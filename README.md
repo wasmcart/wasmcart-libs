@@ -19,10 +19,18 @@ WebAssembly SIMD. There are no slower compatibility builds.
 |---|---|---|---|
 | Box2D | 3.1.1 development snapshot | `libbox2d.a` | ready |
 | Box3D | 0.1.0 development snapshot | `libbox3d.a` | ready |
+| cgltf | 1.15 development snapshot | `libcgltf.a` | ready |
+| Flecs | 4.1.6 core | `libflecs.a` | ready |
+| meshoptimizer | 1.2 development snapshot | `libmeshoptimizer.a` | ready |
+| miniaudio | 0.11.25 decoding and mixing | `libminiaudio.a` | ready |
+| Nuklear | 4.13 development snapshot | `libnuklear.a` | ready |
+| Ogg | 1.3.6 development snapshot | `libogg.a` | ready |
+| Vorbis | 1.3.8 development snapshot | `libvorbis.a` | ready |
+| zlib | 1.3.2 development snapshot | `libzlib.a` | ready |
 
-Raylib, SDL2, and SDL3 adapters are next. They need wasmcart platform backends,
-not merely cross-compilation, so they will land only when their examples run in
-the browser, Node.js, native, and libretro hosts.
+Raylib, SDL2, SDL3, and Skia need wasmcart platform backends, not merely
+cross-compilation. They land here only after their examples run in the browser,
+Node.js, native, and libretro hosts.
 
 ## Why static archives
 

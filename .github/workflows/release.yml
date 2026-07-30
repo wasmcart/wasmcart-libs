@@ -3,8 +3,7 @@ name: Release package
 on:
   push:
     tags:
-      - "box2d-*"
-      - "box3d-*"
+      - "*-wc[0-9]+"
 
 permissions:
   contents: write
@@ -25,11 +24,16 @@ jobs:
         id: package
         shell: bash
         run: |
-          case "$GITHUB_REF_NAME" in
-            box2d-*) echo "name=box2d" >> "$GITHUB_OUTPUT" ;;
-            box3d-*) echo "name=box3d" >> "$GITHUB_OUTPUT" ;;
-            *) echo "Unsupported release tag: $GITHUB_REF_NAME" >&2; exit 1 ;;
-          esac
+          for package_dir in packages/*; do
+            package="${package_dir##*/}"
+            version="$(sed -n 's/^package_version = "\(.*\)"/\1/p' "$package_dir/package.toml")"
+            if [[ "$GITHUB_REF_NAME" == "$package-$version" ]]; then
+              echo "name=$package" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+          done
+          echo "No package matches release tag: $GITHUB_REF_NAME" >&2
+          exit 1
 
       - name: Rebuild and verify
         shell: bash
