@@ -15,23 +15,23 @@ WebAssembly SIMD. There are no slower compatibility builds.
 
 ## Packages
 
-| Package | Upstream | Archive | Status |
-|---|---|---|---|
-| Box2D | 3.1.1 development snapshot | `libbox2d.a` | ready |
-| Box3D | 0.1.0 development snapshot | `libbox3d.a` | ready |
-| cgltf | 1.15 development snapshot | `libcgltf.a` | ready |
-| Flecs | 4.1.6 core | `libflecs.a` | ready |
-| Dear ImGui | 1.92.9 core | `libimgui.a` | ready |
-| Jolt Physics | 5.6.1 development snapshot | `libjolt.a` | ready |
-| libpng | 1.8.0 development snapshot | `liblibpng.a` | ready |
-| libxmp | 4.7.2 lite formats | `liblibxmp.a` | ready |
-| meshoptimizer | 1.2 development snapshot | `libmeshoptimizer.a` | ready |
-| miniaudio | 0.11.25 decoding and mixing | `libminiaudio.a` | ready |
-| Nuklear | 4.13 development snapshot | `libnuklear.a` | ready |
-| Ogg | 1.3.6 development snapshot | `libogg.a` | ready |
-| Opus | 1.5.2 | `libopus.a` | ready |
-| Vorbis | 1.3.8 development snapshot | `libvorbis.a` | ready |
-| zlib | 1.3.2 development snapshot | `libzlib.a` | ready |
+| Package | What it is for | Archive |
+|---|---|---|
+| [Box2D](https://github.com/erincatto/box2d) | Fast 2D rigid-body physics and collision detection. | `libbox2d.a` |
+| [Box3D](https://github.com/erincatto/box3d) | Experimental 3D rigid-body physics and collision detection. | `libbox3d.a` |
+| [cgltf](https://github.com/jkuhlmann/cgltf) | Loading and writing glTF 2.0 models. | `libcgltf.a` |
+| [Flecs](https://github.com/SanderMertens/flecs) | Entity-component-system storage, queries, and simulation. | `libflecs.a` |
+| [Dear ImGui](https://github.com/ocornut/imgui) | Immediate-mode interfaces and in-game debug tools. | `libimgui.a` |
+| [Jolt Physics](https://github.com/jrouwe/JoltPhysics) | Feature-rich 3D rigid-body physics and collision detection. | `libjolt.a` |
+| [libpng](https://github.com/pnggroup/libpng) | Reading and writing PNG images. | `liblibpng.a` |
+| [libxmp](https://github.com/libxmp/libxmp) | Playing tracker music modules such as MOD, XM, S3M, and IT. | `liblibxmp.a` |
+| [meshoptimizer](https://github.com/zeux/meshoptimizer) | Optimizing, simplifying, and compressing 3D meshes. | `libmeshoptimizer.a` |
+| [miniaudio](https://github.com/mackron/miniaudio) | Audio decoding, mixing, playback, and capture. | `libminiaudio.a` |
+| [Nuklear](https://github.com/Immediate-Mode-UI/Nuklear) | Small immediate-mode graphical user interfaces in C. | `libnuklear.a` |
+| [Ogg](https://github.com/xiph/ogg) | Reading and writing Ogg multimedia containers. | `libogg.a` |
+| [Opus](https://github.com/xiph/opus) | Low-latency, high-quality speech and audio compression. | `libopus.a` |
+| [Vorbis](https://github.com/xiph/vorbis) | Lossy audio compression in Ogg containers. | `libvorbis.a` |
+| [zlib](https://github.com/madler/zlib) | DEFLATE compression and decompression. | `libzlib.a` |
 
 Raylib, SDL2, SDL3, and Skia need wasmcart platform backends, not merely
 cross-compilation. They land here only after their examples run in the browser,
@@ -74,19 +74,16 @@ directory.
 
 ## Consume a release
 
-Each package release publishes separate files:
+Each package release publishes one ready-to-link SDK:
 
 ```text
-libbox2d-3.1.0-wc1.a
-box2d-3.1.0-wc1-headers.tar.gz
-box2d-3.1.0-wc1-source.tar.gz
-box2d-3.1.0-wc1.tar.gz
-SHA256SUMS
+box2d-3.1.1-dev.19-wc1.zip
 ```
 
-Download only the versioned `.a` if headers are already available. A new
-project usually downloads the `.a` and small headers archive. Source remains a
-separate artifact for auditing and reproducible builds.
+The ZIP contains `include/`, `lib/libbox2d.a`, `LICENSE`, and `package.toml`
+under one versioned directory. Source is not duplicated in release assets; it
+is available in this repository under `packages/` and from the linked upstream
+project.
 
 After verifying the downloads, add their include and library paths:
 

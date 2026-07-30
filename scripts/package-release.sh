@@ -9,48 +9,29 @@ version="$(sed -n 's/^package_version = "\(.*\)"/\1/p' "$package_dir/package.tom
 [[ -n "$version" ]] || { echo "Missing package_version in $package_dir/package.toml" >&2; exit 1; }
 
 stage="$root/.build/release/$package-$version"
-output="$root/dist/$package-$version.tar.gz"
-versioned_archive="$root/dist/lib$package-$version.a"
-headers_archive="$root/dist/$package-$version-headers.tar.gz"
-source_archive="$root/dist/$package-$version-source.tar.gz"
+output="$root/dist/$package-$version.zip"
 rm -rf "$stage"
-mkdir -p "$stage/include" "$stage/lib" "$stage/source" "$root/dist"
+mkdir -p "$stage/include" "$stage/lib" "$root/dist"
 
 cp -a "$package_dir/vendor/include/." "$stage/include/"
 cp "$package_dir/lib/lib$package.a" "$stage/lib/"
-cp -a "$package_dir/vendor/src" "$stage/source/"
 cp "$package_dir/vendor/LICENSE" "$stage/"
 cp "$package_dir/package.toml" "$stage/"
-cp "$package_dir/lib/lib$package.a" "$versioned_archive"
 
-tar \
-  --sort=name \
-  --mtime="@0" \
-  --owner=0 \
-  --group=0 \
-  --numeric-owner \
-  -czf "$output" \
-  -C "$(dirname "$stage")" \
-  "$(basename "$stage")"
+rm -f \
+  "$root/dist/lib$package-$version.a" \
+  "$root/dist/$package-$version-headers.tar.gz" \
+  "$root/dist/$package-$version-source.tar.gz" \
+  "$root/dist/$package-$version.tar.gz" \
+  "$output"
 
-tar \
-  --sort=name \
-  --mtime="@0" \
-  --owner=0 \
-  --group=0 \
-  --numeric-owner \
-  -czf "$headers_archive" \
-  -C "$stage" \
-  include LICENSE package.toml
+find "$stage" -exec touch -h -t 198001010000 {} +
 
-tar \
-  --sort=name \
-  --mtime="@0" \
-  --owner=0 \
-  --group=0 \
-  --numeric-owner \
-  -czf "$source_archive" \
-  -C "$stage" \
-  source LICENSE package.toml
+(
+  cd "$(dirname "$stage")"
+  find "$(basename "$stage")" -print \
+    | LC_ALL=C sort \
+    | zip -X -q "$output" -@
+)
 
-sha256sum "$versioned_archive" "$headers_archive" "$source_archive" "$output"
+sha256sum "$output"
